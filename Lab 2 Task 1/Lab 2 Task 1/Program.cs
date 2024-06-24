@@ -7,12 +7,12 @@ namespace VehicleSimulation
 {
     class Program
     {
-        const int AREA_WIDTH = 100;
-        const int AREA_HEIGHT = 25;
-        const int NUM_CARS = 12;
-        const int NUM_MOTORCYCLES = 8;
-        const int CHANGE_DIRECTION_INTERVAL = 200; // in milliseconds
-        const int VELOCITY = 1;
+        const int Width = 100;
+        const int Height = 25;
+        const int NumberOfCars = 12;
+        const int NumberOfMoto = 8;
+        const int Interval = 200; // in milliseconds
+        const int Speed = 1;
 
         static object consoleLock = new object();
         static Random rand = new Random();
@@ -25,17 +25,17 @@ namespace VehicleSimulation
             List<Motorcycle> motorcycles = new List<Motorcycle>();
 
             // Initialize cars at random positions
-            for (int i = 0; i < NUM_CARS; ++i)
+            for (int i = 0; i < NumberOfCars; ++i)
             {
-                cars.Add(new Car { x = rand.Next(AREA_WIDTH), y = rand.Next(AREA_HEIGHT) });
+                cars.Add(new Car { x = rand.Next(Width), y = rand.Next(Height) });
                 SetCursorPosition(cars[i].x, cars[i].y);
                 Console.Write("C");
             }
 
             // Initialize motorcycles at random positions
-            for (int i = 0; i < NUM_MOTORCYCLES; ++i)
+            for (int i = 0; i < NumberOfMoto; ++i)
             {
-                motorcycles.Add(new Motorcycle { x = rand.Next(AREA_WIDTH), y = rand.Next(AREA_HEIGHT) });
+                motorcycles.Add(new Motorcycle { x = rand.Next(Width), y = rand.Next(Height) });
                 SetCursorPosition(motorcycles[i].x, motorcycles[i].y);
                 Console.Write("M");
             }
@@ -61,7 +61,7 @@ namespace VehicleSimulation
         {
             while (true)
             {
-                Thread.Sleep(CHANGE_DIRECTION_INTERVAL);
+                Thread.Sleep(Interval);
                 int direction = rand.Next(2); // Cars move only along X axis
 
                 lock (consoleLock)
@@ -71,8 +71,8 @@ namespace VehicleSimulation
 
                     car.x = direction switch
                     {
-                        0 => Math.Min(car.x + VELOCITY, AREA_WIDTH - 1), // Move right
-                        1 => Math.Max(car.x - VELOCITY, 0), // Move left
+                        0 => Math.Min(car.x + Speed, Width - 1), // Move right
+                        1 => Math.Max(car.x - Speed, 0), // Move left
                         _ => car.x,
                     };
 
@@ -95,8 +95,8 @@ namespace VehicleSimulation
 
                     motorcycle.y = rand.Next(2) switch
                     {
-                        0 => Math.Min(motorcycle.y + VELOCITY, AREA_HEIGHT - 1), // Move down
-                        1 => Math.Max(motorcycle.y - VELOCITY, 0), // Move up
+                        0 => Math.Min(motorcycle.y + Speed, Height - 1), // Move down
+                        1 => Math.Max(motorcycle.y - Speed, 0), // Move up
                         _ => motorcycle.y,
                     };
 
@@ -108,16 +108,16 @@ namespace VehicleSimulation
 
         static void DrawBorder()
         {
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Green;
 
-            for (int i = 0; i <= AREA_WIDTH; ++i)
+            for (int i = 0; i <= Width; ++i)
             {
-                SetCursorPosition(i, AREA_HEIGHT);
+                SetCursorPosition(i, Height);
                 Console.Write("*");
             }
-            for (int i = 0; i <= AREA_HEIGHT; ++i)
+            for (int i = 0; i <= Height; ++i)
             {
-                SetCursorPosition(AREA_WIDTH, i);
+                SetCursorPosition(Width, i);
                 Console.Write("*");
             }
 
